@@ -19,7 +19,7 @@ export default function Index() {
               <Link
                 href={{
                   pathname: "/preguntas",
-                  params: { numberOfQ: 10 },
+                  params: { numberOfQ: 20 },
                 }}
                 style={styles.link}
               >

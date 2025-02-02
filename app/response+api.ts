@@ -6,7 +6,11 @@ const client = new OpenAI({
 
 // TODO: Mensaje del sistema para configurar el comportamiento del modelo
 const systemContentMessage = `
-Eres un asistente inteligente preparado para responder preguntas generales de forma concisa y útil.
+1. Se te dará una lista de preguntas y respuestas
+2. Basandote en las preguntas y respuestas suministradas daras la siguiente respuesta: 4 carreras universtarias con el nombre de la carrera, una breve descripción de por qué has elegido esa carrera conforme a las preguntas suministradas y su porcentaje basandote en el total entre las 4 carreras elegidas
+3. El objeto debe contener los siguientes apartados name, description, percent
+3. En un objeto JSON responderas con el siguiente formato: {[{name: "", description: "", percent: ""}]} cada carrera irá dentro del array con el formato de objeto suministrado
+4. Solo debes limitarte a responder cada objeto en el formato suministrado y nada más, los nombres de las diferentes variables serán: {name:"",description:"",percent:""}
 `;
 
 export async function POST(request: Request) {
@@ -24,7 +28,7 @@ export async function POST(request: Request) {
           role: "user",
           content: `${JSON.stringify(
             allAnswers
-          )} Basandote en las siguientes preguntas cuales 5 carreras universitarias recomiendas? responde en cada carrera con su correspondiente porcentaje y limitate a solo enumeraralas con su porcentaje sin comentarios adicionales`,
+          )} Basandote en las siguientes preguntas cuales 4 carreras universitarias recomiendas? responde en cada carrera con su correspondiente porcentaje y limitate a solo enumeraralas con su porcentaje sin comentarios adicionales`,
         },
       ],
     });

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import FormComponent from "@/components/FormComponent";
 import { Pregunta } from "@/constants/preguntas";
+import { useRouter } from "expo-router";
 
 type Answer = {
   pregunta: string;
@@ -30,6 +31,8 @@ export default function Main({
   const [isGtpResponse, setIsGtpResponse] = useState(false);
   const [gtpResponse, setGtpResponse] = useState<any>();
 
+  const router = useRouter();
+
   useEffect(() => {
     setRandomIndex(Math.floor(Math.random() * data.length));
   }, [data]);
@@ -39,6 +42,15 @@ export default function Main({
     setCounter((prev) => prev + 1);
   };
 
+  function extractArray(obj: any) {
+    for (const key in obj) {
+      if (Array.isArray(obj[key])) {
+        return obj[key]; // Retorna el primer array encontrado
+      }
+    }
+    return null; // Si no encuentra un array, devuelve null
+  }
+
   async function handleClickSubmit() {
     const response = await fetch("/response", {
       method: "POST",
@@ -47,8 +59,50 @@ export default function Main({
       },
       body: JSON.stringify({ answers: allAnswers }),
     });
+
     const responseParsed = await response.json();
-    setGtpResponse(responseParsed.content);
+    let extractedArray = [];
+
+    console.log("Respuesta de la API:", responseParsed);
+
+    if (Array.isArray(responseParsed)) {
+      extractedArray = responseParsed;
+    } else if (
+      typeof responseParsed === "object" &&
+      responseParsed !== null &&
+      "content" in responseParsed
+    ) {
+      let cleanedResponse = responseParsed.content
+        .replace(/```json|```/g, "") // Eliminar etiquetas Markdown
+        .trim();
+
+      console.log("Contenido antes de parsear:", cleanedResponse);
+
+      try {
+        // Intentar parsear normalmente
+        extractedArray = JSON.parse(cleanedResponse);
+      } catch (error) {
+        console.error("Error al parsear el JSON, intentando corregir...");
+
+        // Intentar corregir agregando comillas a las claves
+        cleanedResponse = cleanedResponse.replace(
+          /([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g,
+          '$1"$2"$3'
+        );
+
+        try {
+          extractedArray = JSON.parse(cleanedResponse);
+        } catch (finalError) {}
+      }
+    } else {
+      console.error("Formato inesperado de responseParsed:", responseParsed);
+    }
+
+    router.push({
+      pathname: "/response",
+      params: { data: JSON.stringify(extractedArray) },
+    });
+
     setIsGtpResponse(true);
   }
 
@@ -72,11 +126,7 @@ export default function Main({
       </View>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.content}>
-          {isGtpResponse ? (
-            <ScrollView style={styles.responseContainer}>
-              <Text style={styles.responseText}>{gtpResponse}</Text>
-            </ScrollView>
-          ) : counter !== numberOfAnswers ? (
+          {counter !== numberOfAnswers ? (
             <FormComponent
               data={data[randomIndex]}
               selectedAnswers={selectedAnswers}
