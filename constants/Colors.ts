@@ -30,6 +30,7 @@ export const Colors = {
     dark: "#212121",
     light: "#fdfffd",
     lightBlue: "#75d8fc",
+    background: "#090124",
   },
   drawer: {
     backgroundColor: "#6200EE",

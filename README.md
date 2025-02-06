@@ -7,3 +7,4 @@ TODO:
 - [ ] Iconos de postSplash con los colores del boton
 - [ ] La pagina de profile y about
 - [ ] Sorteo post splash y drawer
+- [ ] Cambiar el promt para que las respuestas sean en segunda persona

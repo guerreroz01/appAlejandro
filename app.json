@@ -1,7 +1,6 @@
 {
   "expo": {
     "name": "App",
-    "backgroundColor": "#00000000",
     "slug": "App",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,15 +10,20 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "resizeMode": "contain"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.univia.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
+      "package": "com.univia.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png"
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#000000"
       }
     },
     "web": {
@@ -38,6 +42,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "http://localhost:8081/"
+      },
+      "eas": {
+        "projectId": "36e6fd78-571c-4b09-81ca-15565298cb6f"
+      }
     }
   }
 }
