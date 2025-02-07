@@ -8,6 +8,7 @@ import {
 import Entypo from "@expo/vector-icons/Entypo";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import BrandName from "@/components/BrandName";
 
 export default function Layout() {
   return (
@@ -29,7 +30,7 @@ export default function Layout() {
           headerBackground: () => (
             <LinearGradient
               colors={["#090124", "#6600ff", "#ff00ff"]}
-              start={{ x: 0, y: 0 }}
+              start={{ x: 0.2, y: 0.2 }}
               end={{ x: 1, y: 1 }}
               locations={[0.08, 0.7, 1]}
               style={styles.button}
@@ -45,16 +46,8 @@ export default function Layout() {
         options={{
           title: "Profile",
           headerTitle: "",
+          headerTransparent: true,
           headerTintColor: "#fff",
-          headerBackground: () => (
-            <LinearGradient
-              colors={["#090124", "#6600ff", "#ff00ff"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              locations={[0.08, 0.7, 1]}
-              style={styles.button}
-            />
-          ),
           drawerIcon: () => (
             <Entypo name="user" color={Colors.pallete.light} size={24} />
           ),
@@ -72,7 +65,7 @@ export default function Layout() {
           headerBackground: () => (
             <LinearGradient
               colors={["#090124", "#6600ff", "#ff00ff"]}
-              start={{ x: 0, y: 0 }}
+              start={{ x: 0.2, y: 0.2 }}
               end={{ x: 1, y: 1 }}
               locations={[0.08, 0.7, 1]}
               style={styles.button}
@@ -88,7 +81,7 @@ export default function Layout() {
           headerBackground: () => (
             <LinearGradient
               colors={["#090124", "#6600ff", "#ff00ff"]}
-              start={{ x: 0, y: 0 }}
+              start={{ x: 0.2, y: 0.2 }}
               end={{ x: 1, y: 1 }}
               locations={[0.08, 0.7, 1]}
               style={styles.button}
@@ -111,9 +104,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         source={require("@/assets/images/logo.png")}
         style={{ width: 80, height: 80, alignSelf: "center", marginBottom: 10 }}
       />
-      <View style={styles.header}>
-        <Text style={styles.drawerTitle}>UNIV</Text>
-        <Text style={styles.drawerIAtitle}>IA</Text>
+      <View style={{ alignItems: "center" }}>
+        <BrandName />
       </View>
       <DrawerItemList {...props} />
       <View style={styles.footer}>

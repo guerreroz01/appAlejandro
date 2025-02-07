@@ -24,9 +24,9 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
   pallete: {
-    primary: "#952379",
+    primary: "#ff00ff",
     secondary: "#2633bf",
-    active: "#fbc242",
+    active: "#6600ff",
     dark: "#212121",
     light: "#fdfffd",
     lightBlue: "#75d8fc",

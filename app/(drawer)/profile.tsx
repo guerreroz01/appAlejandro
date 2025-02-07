@@ -2,19 +2,34 @@ import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 const uri =
   "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8";
 
 export default function ProfileScreen() {
   return (
-    <ImageBackground
-      source={require("@/assets/images/appbackground-25-lighting-light.jpg")}
-      resizeMode="cover"
-      style={{ flex: 1 }}
-    >
+    <View style={{ backgroundColor: Colors.pallete.background, flex: 1 }}>
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
+        <View
+          style={{
+            height: 350,
+            width: "120%",
+            overflow: "hidden",
+            borderBottomLeftRadius: "50%",
+            borderBottomRightRadius: "50%",
+            alignItems: "center",
+          }}
+        >
+          <LinearGradient
+            colors={["#090124", "#6600ff", "#ff00ff"]}
+            start={{ x: 0.2, y: 0.2 }}
+            end={{ x: 0.7, y: 0.8 }}
+            locations={[0.08, 0.7, 1]}
+            style={styles.headerContainer}
+          ></LinearGradient>
+        </View>
+        <View style={{ marginTop: -290, alignItems: "center" }}>
           <Text style={styles.headerTitle}>Jessica</Text>
           <View style={styles.imageProfile}>
             <ImageBackground source={{ uri: uri }} style={styles.image} />
@@ -41,7 +56,7 @@ export default function ProfileScreen() {
           <Text style={styles.text}>jessica@gmail.com</Text>
         </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -52,12 +67,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   headerContainer: {
-    backgroundColor: Colors.pallete.lightBlue,
     width: "120%",
-    height: 250,
+    height: 500,
+    alignItems: "center",
     borderBottomLeftRadius: "50%",
     borderBottomRightRadius: "50%",
-    alignItems: "center",
   },
   headerTitle: {
     fontSize: 36,
@@ -69,7 +83,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: "50%",
-    marginTop: 60,
+    marginTop: 100,
     overflow: "hidden",
   },
   image: {
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    marginTop: -50,
+    marginTop: 0,
   },
   iconContainer: {
     width: 100,
@@ -90,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomWidth: 2,
-    borderColor: Colors.pallete.lightBlue,
+    borderColor: "#6600ff",
     marginTop: 10,
   },
   text: {
