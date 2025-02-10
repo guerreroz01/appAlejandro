@@ -11,6 +11,7 @@ import {
 import FormComponent from "@/components/FormComponent";
 import { Pregunta } from "@/constants/preguntas";
 import { useRouter } from "expo-router";
+import ButtonComponent from "./ButtonComponent";
 
 type Answer = {
   pregunta: string;
@@ -137,7 +138,11 @@ export default function Main({
               }
             />
           ) : (
-            <Button title="Enviar encuesta" onPress={handleClickSubmit} />
+            <ButtonComponent
+              text="Enviar encuesta"
+              onPress={handleClickSubmit}
+              link={false}
+            />
           )}
         </View>
       </ScrollView>

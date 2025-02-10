@@ -21,7 +21,7 @@ export default function VideoContainer({
         player={videoRef}
         allowsFullscreen
         allowsPictureInPicture
-        contentFit="fill"
+        contentFit="cover"
       />
       {children}
     </ImageBackground>

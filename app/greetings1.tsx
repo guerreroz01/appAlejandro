@@ -5,13 +5,13 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {
   Animated,
   ImageBackground,
-  Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
+import ButtonComponent from "@/components/ButtonComponent";
 
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1)); // Usar Animated.Value
@@ -32,66 +32,55 @@ export default function Index() {
   }, []);
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/appbackground-25-lighting-light.jpg")}
-      resizeMode="cover"
-      style={styles.background}
-    >
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.container} edges={["left", "right"]}>
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              source={require("@/assets/images/greetings2.png")}
-              resizeMode="cover"
-              style={styles.image}
-            ></ImageBackground>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Tu futuro en cuestión de minutos</Text>
+    <SafeAreaProvider style={{ backgroundColor: Colors.pallete.background }}>
+      <SafeAreaView style={styles.container} edges={["left", "right"]}>
+        <View style={styles.imageContainer}>
+          <ImageBackground
+            source={require("@/assets/images/greetings2.png")}
+            resizeMode="cover"
+            style={styles.image}
+          ></ImageBackground>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Tu futuro en cuestión de minutos</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingBottom: 46,
+              justifyContent: "center",
+              gap: 20,
+            }}
+          >
             <View
               style={{
-                flexDirection: "row",
-                paddingBottom: 46,
-                justifyContent: "center",
-                gap: 20,
+                backgroundColor: "#6600ff",
+                height: 10,
+                width: 10,
+                borderRadius: 20,
               }}
-            >
-              <View
-                style={{
-                  backgroundColor: Colors.pallete.lightBlue,
-                  height: 10,
-                  width: 10,
-                  borderRadius: 20,
-                }}
-              />
-              <Animated.View
-                style={{
-                  backgroundColor: Colors.pallete.lightBlue,
-                  height: 10,
-                  width: breadcumbWidth,
-                  borderRadius: 20,
-                }}
-              />
-            </View>
+            />
+            <Animated.View
+              style={{
+                backgroundColor: "#6600ff",
+                height: 10,
+                width: breadcumbWidth,
+                borderRadius: 20,
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: "#6600ff",
+                height: 10,
+                width: 10,
+                borderRadius: 20,
+              }}
+            />
           </View>
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              {
-                backgroundColor: pressed
-                  ? Colors.pallete.active
-                  : Colors.pallete.lightBlue,
-              },
-            ]}
-          >
-            <Link href={"/greetings2"}>
-              <Text style={styles.buttonText}>Siguiente</Text>
-            </Link>
-          </Pressable>
-          <StatusBar style="light" />
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </ImageBackground>
+        </View>
+        <ButtonComponent text="Siguiente" href="/psorteo" link />
+        <StatusBar style="light" />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

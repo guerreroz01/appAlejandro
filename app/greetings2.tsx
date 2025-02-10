@@ -1,55 +1,49 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import VideoContainer from "@/components/VideoComponent";
-import { Link } from "expo-router";
-import { Colors } from "@/constants/Colors";
-import { useVideoPlayer } from "expo-video";
+import { useVideoPlayer, VideoPlayerStatus } from "expo-video";
+import ButtonComponent from "@/components/ButtonComponent";
+import { useEvent, useEventListener } from "expo";
 
 const videoSource = require("@/assets/videos/video_2.mp4");
 
 export default function Index() {
+  const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
+  const [playerStatus, setPlayerStatus] =
+    React.useState<VideoPlayerStatus | null>(null);
+  const [playerError, setPlayerError] = React.useState<string | null>(null);
+
   const videoRef = useVideoPlayer(videoSource, (player) => {
     player.loop = true;
     player.play();
   });
+  const { status, error } = useEvent(videoRef, "statusChange", {
+    status: videoRef.status,
+  });
 
-  if (!videoRef) {
-    return <></>;
-  }
+  React.useEffect(() => {
+    if (status === "readyToPlay") {
+      setPlayerStatus("readyToPlay");
+    }
+  }, []);
 
   return (
     <VideoContainer videoRef={videoRef}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ width: "100%", flex: 1 }}>
         <SafeAreaView style={styles.container} edges={["left", "right"]}>
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              source={require("@/assets/images/logo.png")}
-              resizeMode="cover"
-              style={styles.image}
-            ></ImageBackground>
-          </View>
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              {
-                backgroundColor: pressed
-                  ? Colors.pallete.active
-                  : Colors.pallete.dark,
-              },
-            ]}
+          <View
+            style={{
+              width: "100%",
+            }}
           >
-            <Link href={"/(drawer)/home"}>
-              <Text style={styles.text}>Comenzar</Text>
-            </Link>
-          </Pressable>
+            {playerStatus === "loading" ? (
+              <ActivityIndicator size="large" color="#fff" />
+            ) : (
+              <ButtonComponent text="Comenzar" href="/(drawer)/home" link />
+            )}
+          </View>
           <StatusBar style="light" />
         </SafeAreaView>
       </SafeAreaProvider>
@@ -60,35 +54,16 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",
+    paddingVertical: 80,
   },
-  button: {
-    marginTop: 400,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: Colors.pallete.dark,
-  },
-  text: {
-    color: "white",
-    fontSize: 26,
-    fontWeight: 600,
-    textAlign: "center",
-    fontFamily: "Poppins",
-  },
-
   imageContainer: {
     width: "100%",
     height: 100,
     top: 80,
     alignItems: "center",
     justifyContent: "center",
-  },
-  image: {
-    width: 120,
-    height: 120,
-    objectFit: "contain",
   },
 });

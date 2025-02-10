@@ -33,6 +33,12 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
+        name="psorteo"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="greetings2"
         options={{
           headerShown: false,

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { Colors } from "@/constants/Colors";
+import ButtonComponent from "./ButtonComponent";
 
 type Question = {
   pregunta: string;
@@ -72,43 +73,37 @@ export default function FormComponent({
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.question}>{data.pregunta}</Text>
       <View style={styles.formContainer}>
-        {Object.entries(respuestas).length > 0 ? (
-          Object.entries(data?.respuestas).map(([key, value]) => (
-            <View style={styles.checkboxContainer} key={key}>
-              <BouncyCheckbox
-                text={value}
-                fillColor={Colors.pallete.active}
-                textStyle={styles.label}
-                iconImageStyle={{ tintColor: Colors.pallete.dark }}
-                style={styles.checkBox}
-                isChecked={selectedAnswers.some(
-                  (answer) =>
-                    answer.pregunta === data.pregunta &&
-                    answer.respuesta === value
-                )}
-                onPress={(isChecked: boolean) => {
-                  handleCheckboxChange(isChecked, data.pregunta, value);
-                }}
-              />
-            </View>
-          ))
-        ) : (
-          <Text style={styles.noAnswers}>No hay respuestas disponibles.</Text>
-        )}
-        <TouchableOpacity
+        <View>
+          {Object.entries(respuestas).length > 0 ? (
+            Object.entries(data?.respuestas).map(([key, value]) => (
+              <View style={styles.checkboxContainer} key={key}>
+                <BouncyCheckbox
+                  text={value}
+                  fillColor={Colors.pallete.primary}
+                  textStyle={styles.label}
+                  iconImageStyle={{ tintColor: Colors.pallete.light }}
+                  style={styles.checkBox}
+                  isChecked={selectedAnswers.some(
+                    (answer) =>
+                      answer.pregunta === data.pregunta &&
+                      answer.respuesta === value
+                  )}
+                  onPress={(isChecked: boolean) => {
+                    handleCheckboxChange(isChecked, data.pregunta, value);
+                  }}
+                />
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noAnswers}>No hay respuestas disponibles.</Text>
+          )}
+        </View>
+        <ButtonComponent
           onPress={handleSubmit}
           disabled={!isButtonEnabled}
-          style={styles.button}
-        >
-          <Text
-            style={[
-              styles.buttonLabel,
-              { color: isButtonEnabled ? Colors.pallete.light : "#adabac" },
-            ]}
-          >
-            Siguiente
-          </Text>
-        </TouchableOpacity>
+          text={"Siguiente"}
+          link={false}
+        ></ButtonComponent>
       </View>
     </ScrollView>
   );
@@ -131,6 +126,7 @@ const styles = StyleSheet.create({
   formContainer: {
     width: "100%",
     paddingHorizontal: 1,
+    gap: 48,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -151,19 +147,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#888",
     marginBottom: 16,
-  },
-  button: {
-    justifyContent: "center",
-    width: "50%",
-    alignSelf: "center",
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 20,
-    backgroundColor: Colors.pallete.secondary,
-  },
-  buttonLabel: {
-    alignSelf: "center",
-    fontSize: 20,
-    fontWeight: 600,
   },
 });

@@ -7,12 +7,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import BrandName from "@/components/BrandName";
 import { LinearGradient } from "expo-linear-gradient";
 
-const uri =
-  "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8";
-
-export default function ProfileScreen() {
+export default function AboutScreen() {
   const pieData1 = [
-    { value: 30, color: Colors.pallete.lightBlue },
+    { value: 30, color: "#6600ff" },
     { value: 70, color: "#eaeaea" },
   ];
   return (
@@ -30,7 +27,6 @@ export default function ProfileScreen() {
             <PieChart
               donut
               innerRadius={35}
-              innerCircleColor={Colors.pallete.secondary}
               radius={60}
               data={pieData1}
               centerLabelComponent={() => {
@@ -46,7 +42,7 @@ export default function ProfileScreen() {
                     }}
                   >
                     <LinearGradient
-                      colors={["#090124", "#6600ff", "#ff00ff"]}
+                      colors={["#090124", "#090124"]}
                       start={{ x: 0.3, y: 0.3 }}
                       end={{ x: 1, y: 1 }}
                       style={{
