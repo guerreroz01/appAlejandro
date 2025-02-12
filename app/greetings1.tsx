@@ -2,33 +2,20 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  Animated,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { Link } from "expo-router";
+import { Animated, ImageBackground, StyleSheet, View } from "react-native";
+import AnimatedText from "@/components/AnimationText";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
 
 export default function Index() {
-  const [breadcumbWidth] = useState(new Animated.Value(1)); // Usar Animated.Value
+  const [breadcumbWidth] = useState(new Animated.Value(1));
 
-  // Usar useEffect con un setTimeout para crear un retraso
   useEffect(() => {
-    // Simulamos un retraso en la animación para asegurar que se active después de la transición
-    const timer = setTimeout(() => {
-      Animated.timing(breadcumbWidth, {
-        toValue: 60, // Finalizamos en 60
-        duration: 300, // Duración rápida (300ms)
-        useNativeDriver: false, // No usamos native driver porque estamos animando el ancho
-      }).start(); // Iniciar animación
-    }, 100); // Retraso de 100ms después de la carga inicial
-
-    // Limpiar el timer cuando el componente se desmonte
-    return () => clearTimeout(timer);
+    Animated.timing(breadcumbWidth, {
+      toValue: 60,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
   }, []);
 
   return (
@@ -36,18 +23,20 @@ export default function Index() {
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <View style={styles.imageContainer}>
           <ImageBackground
-            source={require("@/assets/images/greetings2.png")}
+            source={require("@/assets/images/greetings1.png")}
             resizeMode="cover"
             style={styles.image}
           ></ImageBackground>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Tu futuro en cuestión de minutos</Text>
+          <AnimatedText text={["Tu futuro en cuestión", "de minutos"]} />
           <View
             style={{
+              height: 100,
               flexDirection: "row",
               paddingBottom: 46,
               justifyContent: "center",
+              alignItems: "center",
               gap: 20,
             }}
           >
@@ -100,39 +89,13 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
   },
-  button: {
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    borderRadius: 40,
-    width: "80%",
-    height: "auto",
-    alignSelf: "center",
-    marginBottom: 10,
-  },
-  text: {
-    color: Colors.pallete.light,
-    paddingHorizontal: 10,
-    fontSize: 32,
-    fontWeight: 600,
-    textAlign: "center",
-    fontFamily: "Poppins",
-  },
-  buttonText: {
-    color: Colors.pallete.light,
-    fontSize: 20,
-    fontWeight: 600,
-    textAlign: "center",
-    fontFamily: "Poppins",
-  },
-
   imageContainer: {
     width: 300,
-    marginBottom: 20,
     height: 300,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
-    zIndex: 50,
+    marginBottom: 20,
     overflow: "hidden",
   },
   image: {

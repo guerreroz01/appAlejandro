@@ -12,6 +12,7 @@ import {
 import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
+import AnimatedText from "@/components/AnimationText";
 
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1)); // Usar Animated.Value
@@ -42,9 +43,10 @@ export default function Index() {
           ></ImageBackground>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>
-            Gana 200€ participando en nuestro sorteo
-          </Text>
+          <AnimatedText
+            text={["Gana 200€", "participando en", "nuestro sorteo"]}
+          />
+
           <View
             style={{
               flexDirection: "row",

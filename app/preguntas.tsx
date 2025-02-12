@@ -23,7 +23,7 @@ export default function Preguntas() {
   }
   return (
     <VideoContainer videoRef={videoRef}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ width: "100%" }}>
         <SafeAreaView style={styles.container} edges={["left", "right"]}>
           <Main data={data} numberOfAnswers={Number(numberOfQ)} />
           <StatusBar style="light" />
@@ -36,6 +36,7 @@ export default function Preguntas() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
   },
   image: {
     flex: 1,

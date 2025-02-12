@@ -139,7 +139,7 @@ export default function Main({
             />
           ) : (
             <ButtonComponent
-              text="Enviar encuesta"
+              text="Ver Resultados"
               onPress={handleClickSubmit}
               link={false}
             />
@@ -156,14 +156,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    width: "100%",
   },
   content: {
     width: "100%",
     maxWidth: 900,
     padding: 16,
-    borderRadius: 16, // Rounded corners
-    backgroundColor: "rgba(39, 49, 154, 0.29)", // Semi-transparent background
-    borderColor: "rgba(39, 49, 154, 0.23)", // Border color
+    backgroundColor: "rgba(46, 55, 249, 0.08)",
+    borderRadius: 16,
+    borderColor: "rgba(46, 55, 249, 0.3)",
+    borderWidth: 1,
   },
   loadingContainer: {
     flex: 1,

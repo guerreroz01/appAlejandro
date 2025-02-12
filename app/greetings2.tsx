@@ -5,7 +5,9 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 import VideoContainer from "@/components/VideoComponent";
 import { useVideoPlayer, VideoPlayerStatus } from "expo-video";
 import ButtonComponent from "@/components/ButtonComponent";
-import { useEvent, useEventListener } from "expo";
+import { useEvent } from "expo";
+import { auth } from "@/firebaseConfig";
+import { signInWithCredential, GoogleAuthProvider } from "firebase/auth";
 
 const videoSource = require("@/assets/videos/video_2.mp4");
 
@@ -13,7 +15,6 @@ export default function Index() {
   const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
   const [playerStatus, setPlayerStatus] =
     React.useState<VideoPlayerStatus | null>(null);
-  const [playerError, setPlayerError] = React.useState<string | null>(null);
 
   const videoRef = useVideoPlayer(videoSource, (player) => {
     player.loop = true;

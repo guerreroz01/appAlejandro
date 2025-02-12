@@ -15,7 +15,7 @@ export default function Index() {
             <CardComponent
               label="🏆🏆🏆"
               href="/preguntas"
-              numberOfQ={15}
+              numberOfQ={1}
               text="Cuestionario 15 Preguntas"
               subText="¡Rápido y sencillo!"
             />
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cardContainer: {
-    paddingVertical: 40,
+    paddingVertical: 30,
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center",

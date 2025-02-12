@@ -2,15 +2,9 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  Animated,
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Animated, ImageBackground, StyleSheet, View } from "react-native";
 import { Link } from "expo-router";
+import AnimatedText from "@/components/AnimationText";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
 
@@ -36,12 +30,14 @@ export default function Index() {
           ></ImageBackground>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Encuentra tu carrera con nosotros</Text>
+          <AnimatedText text={["Encuentra tu carrera", "con nosotros"]} />
           <View
             style={{
+              height: 100,
               flexDirection: "row",
               paddingBottom: 46,
               justifyContent: "center",
+              alignItems: "center",
               gap: 20,
             }}
           >
@@ -94,14 +90,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
   },
-  text: {
-    color: Colors.pallete.light,
-    paddingHorizontal: 10,
-    fontSize: 32,
-    fontWeight: 600,
-    textAlign: "center",
-    fontFamily: "Poppins",
-  },
   imageContainer: {
     width: 300,
     height: 300,
@@ -109,7 +97,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     marginBottom: 20,
-    zIndex: 50,
     overflow: "hidden",
   },
   image: {
