@@ -1,5 +1,5 @@
 import { Drawer } from "expo-router/drawer";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,6 +9,9 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import BrandName from "@/components/BrandName";
+import { useGoogleOauth } from "@/hooks/useGoogleOauth";
+import { useRouter } from "expo-router";
+import LogOutButton from "@/components/LogOutButton";
 
 export default function Layout() {
   return (
@@ -99,16 +102,17 @@ export default function Layout() {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} style={{ flex: 1 }}>
       <Image
         source={require("@/assets/images/logo.png")}
         style={{ width: 80, height: 80, alignSelf: "center", marginBottom: 10 }}
       />
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", marginBottom: 10 }}>
         <BrandName />
       </View>
       <DrawerItemList {...props} />
       <View style={styles.footer}>
+        <LogOutButton />
         <Text style={styles.footerText}>www.univia.app</Text>
       </View>
     </DrawerContentScrollView>
@@ -140,14 +144,16 @@ const styles = StyleSheet.create({
     fontFamily: "Spectral",
   },
   footer: {
-    alignSelf: "center",
-    height: "100%",
     justifyContent: "flex-end",
+    height: "100%",
+    width: "100%",
+    gap: 60,
   },
   footerText: {
     color: Colors.pallete.light,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 600,
-    fontFamily: "Poppins",
+    textAlign: "center",
+    fontFamily: "Spectral",
   },
 });

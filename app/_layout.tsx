@@ -4,9 +4,8 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import * as NavigationBar from "expo-navigation-bar";
+import { Platform } from "react-native";
 import { Colors } from "@/constants/Colors";
-
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   let hideTimeout: ReturnType<typeof setTimeout>;
@@ -18,31 +17,33 @@ export default function RootLayout() {
     Spectral: require("@/assets/fonts/SpectralSC-SemiBold.ttf"),
   });
 
-  NavigationBar.addVisibilityListener(({ visibility }) => {
-    if (visibility === "visible") {
-      setBarVisibility(visibility);
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      NavigationBar.addVisibilityListener(({ visibility }) => {
+        if (visibility === "visible") {
+          setBarVisibility(visibility);
 
-      // Limpiar cualquier temporizador previo antes de establecer uno nuevo
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
+          if (hideTimeout) {
+            clearTimeout(hideTimeout);
+          }
 
-      hideTimeout = setTimeout(() => {
-        hideNavigationBar();
-      }, 5000); // Ocultar después de 5 segundos
+          hideTimeout = setTimeout(() => {
+            hideNavigationBar();
+          }, 5000);
+        }
+      });
     }
-  });
+  }, []);
 
   useEffect(() => {
-    navigationConfig();
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+    if (Platform.OS === "android") {
+      navigationConfig();
+    }
+  }, [loaded, barVisibility]);
 
-    return () => {
-      // Limpiar el temporizador cuando el componente se desmonte
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
-    };
-  }, []);
   const navigationConfig = async () => {
     await NavigationBar.setBehaviorAsync("overlay-swipe");
     await NavigationBar.setBackgroundColorAsync(Colors.pallete.background);
@@ -53,59 +54,18 @@ export default function RootLayout() {
     await NavigationBar.setVisibilityAsync("hidden");
   };
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-
-    navigationConfig();
-  }, [loaded, barVisibility]);
-
   return (
     <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="greetings1"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="psorteo"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="greetings2"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="(drawer)"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="preguntas"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="response"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="greetings1" options={{ headerShown: false }} />
+      <Stack.Screen name="psorteo" options={{ headerShown: false }} />
+      <Stack.Screen name="greetings2" options={{ headerShown: false }} />
+      <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+      <Stack.Screen name="preguntas" options={{ headerShown: false }} />
+      <Stack.Screen name="response" options={{ headerShown: false }} />
+      <Stack.Screen name="response1" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" options={{}} />
+      <Stack.Screen name="oauthredirect" options={{}} />
     </Stack>
   );
 }

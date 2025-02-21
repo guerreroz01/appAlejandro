@@ -2,10 +2,10 @@
   "expo": {
     "name": "UNIVIA",
     "slug": "App",
+    "scheme": "ai-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -51,6 +51,7 @@
       "eas": {
         "projectId": "36e6fd78-571c-4b09-81ca-15565298cb6f"
       }
-    }
+    },
+    "owner": "guerreroz01"
   }
 }

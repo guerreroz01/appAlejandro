@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { PieChart } from "react-native-gifted-charts";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
-type DataType = {
+export type DataType = {
   name: string;
   description: string;
   percent: string;
@@ -13,14 +13,33 @@ type DataType = {
 
 export default function ResponseScreen() {
   const params = useLocalSearchParams();
+
   let parsedData: DataType = [];
 
   try {
-    parsedData = typeof params.data === "string" ? JSON.parse(params.data) : [];
+    if (Array.isArray(params.data)) {
+      // 🔥 Caso 1: Es un array de strings -> parsear cada string a objeto
+      parsedData = params.data.map((item) => {
+        if (typeof item === "string") {
+          return JSON.parse(item);
+        }
+        return item; // Si ya es un objeto, lo dejamos igual
+      });
+    } else if (typeof params.data === "string") {
+      // 🔥 Caso 2: Es un string JSON normal
+      parsedData = JSON.parse(params.data);
+    } else {
+      console.error("❌ params.data tiene un formato inesperado:", params.data);
+    }
   } catch (error) {
-    console.error("Error parsing JSON:", error);
+    console.error("❌ Error al parsear JSON:", error);
   }
 
+  if (!parsedData || parsedData.length === 0) {
+    console.warn("⚠️ No hay datos disponibles en parsedData.");
+  }
+
+  console.log("contenido despues del parseado ------->--->: ", parsedData);
   const data = [
     {
       value: Number(parsedData[0].percent.replace("%", "")),
@@ -114,51 +133,66 @@ export default function ResponseScreen() {
                   },
                   { value: 100 - percentNumber, color: "#eaeaea" },
                 ];
+                console.log("NAME ----> ", name);
                 return (
-                  <View key={index} style={styles.item}>
-                    <PieChart
-                      donut
-                      innerRadius={35}
-                      radius={50}
-                      data={pieData}
-                      centerLabelComponent={() => {
-                        return (
-                          <View
-                            style={{
-                              width: 70,
-                              height: 70,
-                              overflow: "hidden",
-                              borderRadius: "50%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <LinearGradient
-                              colors={["rgb(13, 18, 122)", "rgb(16, 22, 131)"]}
-                              start={{ x: 0.3, y: 0.3 }}
-                              end={{ x: 1, y: 1 }}
+                  <Link
+                    href={{
+                      pathname: "/response1",
+                      params: {
+                        data: JSON.stringify({ name, description, percent }),
+                      },
+                    }}
+                    key={index}
+                    style={{ marginBottom: 10 }}
+                  >
+                    <View style={styles.item}>
+                      <PieChart
+                        donut
+                        innerRadius={35}
+                        radius={50}
+                        data={pieData}
+                        centerLabelComponent={() => {
+                          return (
+                            <View
                               style={{
-                                width: 100,
-                                height: 100,
+                                width: 70,
+                                height: 70,
+                                overflow: "hidden",
+                                borderRadius: "50%",
                                 alignItems: "center",
                                 justifyContent: "center",
                               }}
                             >
-                              <Text
+                              <LinearGradient
+                                colors={[
+                                  "rgb(13, 18, 122)",
+                                  "rgb(16, 22, 131)",
+                                ]}
+                                start={{ x: 0.3, y: 0.3 }}
+                                end={{ x: 1, y: 1 }}
                                 style={{
-                                  fontSize: 30,
-                                  color: Colors.pallete.light,
+                                  width: 100,
+                                  height: 100,
+                                  alignItems: "center",
+                                  justifyContent: "center",
                                 }}
                               >
-                                {`${percentNumber}%`}
-                              </Text>
-                            </LinearGradient>
-                          </View>
-                        );
-                      }}
-                    />
-                    <Text style={styles.textName}>{name}</Text>
-                  </View>
+                                <Text
+                                  style={{
+                                    fontSize: 30,
+                                    color: Colors.pallete.light,
+                                  }}
+                                >
+                                  {`${percentNumber}%`}
+                                </Text>
+                              </LinearGradient>
+                            </View>
+                          );
+                        }}
+                      />
+                      <Text style={styles.textName}>{name}</Text>
+                    </View>
+                  </Link>
                 );
               })
             ) : (

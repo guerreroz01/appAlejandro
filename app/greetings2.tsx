@@ -1,21 +1,30 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Button,
+  Pressable,
+  Text,
+} from "react-native";
 import VideoContainer from "@/components/VideoComponent";
 import { useVideoPlayer, VideoPlayerStatus } from "expo-video";
 import ButtonComponent from "@/components/ButtonComponent";
 import { useEvent } from "expo";
-import { auth } from "@/firebaseConfig";
-import { signInWithCredential, GoogleAuthProvider } from "firebase/auth";
+import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleOauth";
+import { Colors } from "@/constants/Colors";
+import LogInWithGoogleButton from "@/components/LogInWithGoogleButton";
+import LogInWithIOSButton from "@/components/LogInWithIOSButton";
 
 const videoSource = require("@/assets/videos/video_2.mp4");
 
 export default function Index() {
-  const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
+  const [user, setUser] = React.useState<UserInfo | null>(null);
+  const { userInfo, getStoredUser } = useGoogleOauth();
   const [playerStatus, setPlayerStatus] =
     React.useState<VideoPlayerStatus | null>(null);
-
   const videoRef = useVideoPlayer(videoSource, (player) => {
     player.loop = true;
     player.play();
@@ -28,6 +37,11 @@ export default function Index() {
     if (status === "readyToPlay") {
       setPlayerStatus("readyToPlay");
     }
+    async function getUserFromAsyncData() {
+      const userData = await getStoredUser();
+      setUser(userData);
+    }
+    getUserFromAsyncData();
   }, []);
 
   return (
@@ -41,8 +55,13 @@ export default function Index() {
           >
             {playerStatus === "loading" ? (
               <ActivityIndicator size="large" color="#fff" />
+            ) : userInfo ? (
+              <ButtonComponent link href="/(drawer)/home" text="Comenzar" />
             ) : (
-              <ButtonComponent text="Comenzar" href="/(drawer)/home" link />
+              <>
+                <LogInWithGoogleButton />
+                <LogInWithIOSButton />
+              </>
             )}
           </View>
           <StatusBar style="light" />

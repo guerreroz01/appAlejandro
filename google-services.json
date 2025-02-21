@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "236180547128",
-    "project_id": "univia-b5034",
-    "storage_bucket": "univia-b5034.firebasestorage.app"
+    "project_number": "1021085977238",
+    "project_id": "univia-642c8",
+    "storage_bucket": "univia-642c8.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:236180547128:android:13a412e7f45cb5680ce8cd",
+        "mobilesdk_app_id": "1:1021085977238:android:dabe2799db8d36b78ed0b7",
         "android_client_info": {
           "package_name": "com.univia.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAZooGzdYifaDKjwfELyO5D6Rq4T9ZE-k4"
+          "current_key": "AIzaSyASE0OpYKrswQLvo5mACIYFtn9rGjKijQQ"
         }
       ],
       "services": {

@@ -1,13 +1,36 @@
 import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleOauth";
+
+const userInfoData = {
+  email: "",
+  family_name: "",
+  given_name: "",
+  id: "",
+  name: "",
+  picture: "",
+  verified_email: false,
+};
 
 const uri =
   "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8";
 
 export default function ProfileScreen() {
+  const { getStoredUser } = useGoogleOauth();
+  const [user, setUser] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    async function getUserFromAsyncData() {
+      const userData = await getStoredUser();
+      if (!userData) setUser(userInfoData);
+      setUser(userData);
+    }
+    getUserFromAsyncData();
+  }, []);
+
   return (
     <View style={{ backgroundColor: Colors.pallete.background, flex: 1 }}>
       <View style={styles.container}>
@@ -30,9 +53,12 @@ export default function ProfileScreen() {
           ></LinearGradient>
         </View>
         <View style={{ marginTop: -290, alignItems: "center" }}>
-          <Text style={styles.headerTitle}>Jessica</Text>
+          <Text style={styles.headerTitle}>{user?.given_name}</Text>
           <View style={styles.imageProfile}>
-            <ImageBackground source={{ uri: uri }} style={styles.image} />
+            <ImageBackground
+              source={{ uri: user?.picture }}
+              style={styles.image}
+            />
           </View>
         </View>
       </View>
@@ -41,19 +67,13 @@ export default function ProfileScreen() {
           <View style={styles.iconContainer}>
             <Entypo name="user" color={Colors.pallete.light} size={24} />
           </View>
-          <Text style={styles.text}>Jessica</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <View style={styles.iconContainer}>
-            <Entypo name="phone" color={Colors.pallete.light} size={24} />
-          </View>
-          <Text style={styles.text}>555 555 555</Text>
+          <Text style={styles.text}>{user?.name}</Text>
         </View>
         <View style={styles.textContainer}>
           <View style={styles.iconContainer}>
             <Entypo name="mail" color={Colors.pallete.light} size={24} />
           </View>
-          <Text style={styles.text}>jessica@gmail.com</Text>
+          <Text style={styles.text}>{user?.email}</Text>
         </View>
       </View>
     </View>

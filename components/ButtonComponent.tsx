@@ -7,12 +7,12 @@ import { LinearGradient } from "expo-linear-gradient";
 export type herfType =
   | RelativePathString
   | ExternalPathString
-  | undefined
   | "/greetings1"
   | "/greetings2"
   | "/psorteo"
   | "/(drawer)/home"
-  | "/preguntas";
+  | "/preguntas"
+  | "/response1";
 
 interface ButtonComponentInt {
   text: string;
@@ -29,6 +29,7 @@ export default function ButtonComponent({
   onPress,
   disabled,
 }: ButtonComponentInt) {
+  const safeHref = href ?? "/home";
   if (!link) {
     return (
       <Pressable
@@ -58,7 +59,7 @@ export default function ButtonComponent({
         locations={[0.08, 0.7, 1]}
         style={styles.button}
       >
-        <Link href={href!}>
+        <Link href={safeHref}>
           <Text style={styles.buttonText}>{text}</Text>
         </Link>
       </LinearGradient>
