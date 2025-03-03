@@ -6,6 +6,7 @@ import { Animated, ImageBackground, StyleSheet, View } from "react-native";
 import AnimatedText from "@/components/AnimationText";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
+import LottieView from "lottie-react-native";
 
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1));
@@ -22,11 +23,15 @@ export default function Index() {
     <SafeAreaProvider style={{ backgroundColor: Colors.pallete.background }}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <View style={styles.imageContainer}>
-          <ImageBackground
-            source={require("@/assets/images/greetings1.png")}
-            resizeMode="cover"
-            style={styles.image}
-          ></ImageBackground>
+          <LottieView
+            source={require("@/assets/looties/logo_con_bombilla.json")}
+            autoPlay
+            loop={false}
+            style={{
+              flex: 1,
+              width: "90%",
+            }}
+          />
         </View>
         <View style={styles.textContainer}>
           <AnimatedText text={["Tu futuro en cuestión", "de minutos"]} />

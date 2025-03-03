@@ -60,12 +60,8 @@ export default function Main({
       },
       body: JSON.stringify({ answers: allAnswers }),
     });
-
     const responseParsed = await response.json();
     let extractedArray = [];
-
-    console.log("Respuesta de la API:", responseParsed);
-
     if (Array.isArray(responseParsed)) {
       extractedArray = responseParsed;
     } else if (
@@ -73,36 +69,13 @@ export default function Main({
       responseParsed !== null &&
       "content" in responseParsed
     ) {
-      let cleanedResponse = responseParsed.content
-        .replace(/```json|```/g, "") // Eliminar etiquetas Markdown
-        .trim();
-
-      console.log("Contenido antes de parsear:", cleanedResponse);
-
-      try {
-        // Intentar parsear normalmente
-        extractedArray = JSON.parse(cleanedResponse);
-      } catch (error) {
-        console.error("Error al parsear el JSON, intentando corregir...");
-
-        // Intentar corregir agregando comillas a las claves
-        cleanedResponse = cleanedResponse.replace(
-          /([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g,
-          '$1"$2"$3'
-        );
-
-        try {
-          extractedArray = JSON.parse(cleanedResponse);
-        } catch (finalError) {}
-      }
+      router.replace({
+        pathname: "/response",
+        params: { data: JSON.stringify(responseParsed.content) },
+      });
     } else {
       console.error("Formato inesperado de responseParsed:", responseParsed);
     }
-
-    router.push({
-      pathname: "/response",
-      params: { data: JSON.stringify(extractedArray) },
-    });
 
     setIsGtpResponse(true);
   }

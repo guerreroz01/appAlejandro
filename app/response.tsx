@@ -1,45 +1,58 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { PieChart } from "react-native-gifted-charts";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
 export type DataType = {
   name: string;
   description: string;
   percent: string;
+  color?: string;
 }[];
 
 export default function ResponseScreen() {
   const params = useLocalSearchParams();
+  const [parsedData, setParsedData] = useState<DataType>([]);
 
-  let parsedData: DataType = [];
-
-  try {
-    if (Array.isArray(params.data)) {
-      // 🔥 Caso 1: Es un array de strings -> parsear cada string a objeto
-      parsedData = params.data.map((item) => {
-        if (typeof item === "string") {
-          return JSON.parse(item);
+  const router = useRouter();
+  useEffect(() => {
+    function parseData() {
+      try {
+        if (Array.isArray(params.data)) {
+          // 🔥 Caso 1: Es un array de strings -> parsear cada string a objeto
+          setParsedData(
+            params.data.map((item) => {
+              if (typeof item === "string") {
+                return JSON.parse(item);
+              }
+              return item; // Si ya es un objeto, lo dejamos igual
+            })
+          );
+        } else {
+          // 🔥 Caso 2: Es un string JSON normal
+          setParsedData(JSON.parse(params.data));
         }
-        return item; // Si ya es un objeto, lo dejamos igual
-      });
-    } else if (typeof params.data === "string") {
-      // 🔥 Caso 2: Es un string JSON normal
-      parsedData = JSON.parse(params.data);
-    } else {
-      console.error("❌ params.data tiene un formato inesperado:", params.data);
+      } catch (error) {
+        console.error("❌ Error al parsear JSON:", error);
+      }
     }
-  } catch (error) {
-    console.error("❌ Error al parsear JSON:", error);
-  }
 
-  if (!parsedData || parsedData.length === 0) {
+    parseData();
+  }, [params.data]);
+
+  if (!parsedData.length) {
     console.warn("⚠️ No hay datos disponibles en parsedData.");
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.text}>No data available</Text>
+      </SafeAreaView>
+    );
   }
 
-  console.log("contenido despues del parseado ------->--->: ", parsedData);
   const data = [
     {
       value: Number(parsedData[0].percent.replace("%", "")),
@@ -61,7 +74,7 @@ export default function ResponseScreen() {
       value: Number(parsedData[3].percent.replace("%", "")),
       text: parsedData[3].name.substring(0, 2),
 
-      color: Colors.pallete.light,
+      color: "#d6c800",
     },
   ];
 
@@ -79,6 +92,15 @@ export default function ResponseScreen() {
             contentContainerStyle={styles.scrollView}
             keyboardShouldPersistTaps="handled"
           >
+            <FontAwesome
+              name="home"
+              color="#fff"
+              size={24}
+              style={{ alignSelf: "flex-start", padding: 20 }}
+              onPress={() => {
+                router.back();
+              }}
+            />
             <Text style={styles.title}>TUS RESULTADOS</Text>
             <PieChart
               data={data}
@@ -129,17 +151,21 @@ export default function ResponseScreen() {
                         ? Colors.pallete.primary
                         : index === 2
                         ? Colors.pallete.secondary
-                        : "#fff",
+                        : "#d6c800",
                   },
                   { value: 100 - percentNumber, color: "#eaeaea" },
                 ];
-                console.log("NAME ----> ", name);
                 return (
                   <Link
                     href={{
                       pathname: "/response1",
                       params: {
-                        data: JSON.stringify({ name, description, percent }),
+                        data: JSON.stringify({
+                          name,
+                          description,
+                          percent,
+                          color: pieData[0].color,
+                        }),
                       },
                     }}
                     key={index}
@@ -221,7 +247,6 @@ const styles = StyleSheet.create({
     color: Colors.pallete.light,
     fontFamily: "Poppins",
     fontSize: 42,
-    marginTop: 40,
   },
   item: {
     flexDirection: "row",

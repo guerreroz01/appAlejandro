@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Animated, ImageBackground, StyleSheet, View } from "react-native";
-import { Link } from "expo-router";
 import AnimatedText from "@/components/AnimationText";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
+import LottieView from "lottie-react-native";
 
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1));
@@ -23,11 +23,12 @@ export default function Index() {
     <SafeAreaProvider style={{ backgroundColor: Colors.pallete.background }}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <View style={styles.imageContainer}>
-          <ImageBackground
-            source={require("@/assets/images/greetings1.png")}
-            resizeMode="cover"
-            style={styles.image}
-          ></ImageBackground>
+          <LottieView
+            source={require("@/assets/looties/logolibro.json")}
+            autoPlay
+            loop={false}
+            style={{ flex: 1, width: "80%" }}
+          />
         </View>
         <View style={styles.textContainer}>
           <AnimatedText text={["Encuentra tu carrera", "con nosotros"]} />

@@ -1,21 +1,22 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { DataType } from "./response";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { Colors } from "@/constants/Colors";
 import { PieChart } from "react-native-gifted-charts";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Page() {
   const params = useLocalSearchParams();
   let parsedData: DataType = [];
+  const router = useRouter();
 
   try {
     if (Array.isArray(params.data)) {
       // 🔥 Caso 1: Es un array de strings -> parsear cada string a objeto
-      console.log("Caso 1");
       parsedData = params.data.map((item) => {
         if (typeof item === "string") {
           return JSON.parse(item);
@@ -49,20 +50,22 @@ export default function Page() {
             contentContainerStyle={styles.scrollView}
             keyboardShouldPersistTaps="handled"
           >
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={"#fff"}
+              style={{ alignSelf: "flex-start", padding: 20 }}
+              onPress={() => {
+                router.back();
+              }}
+            />
             {parsedData.length > 0 ? (
-              parsedData.map(({ name, description, percent }, index) => {
+              parsedData.map(({ name, description, percent, color }, index) => {
                 const percentNumber = Number(percent.replace("%", ""));
                 const pieData = [
                   {
                     value: percentNumber,
-                    color:
-                      index === 0
-                        ? Colors.pallete.lightBlue
-                        : index === 1
-                        ? Colors.pallete.primary
-                        : index === 2
-                        ? Colors.pallete.secondary
-                        : "#fff",
+                    color: color,
                   },
                   { value: 100 - percentNumber, color: "#eaeaea" },
                 ];
@@ -75,6 +78,7 @@ export default function Page() {
                       justifyContent: "center",
                       gap: 40,
                     }}
+                    key={index}
                   >
                     <Text style={styles.title}>{name}</Text>
                     <PieChart
@@ -147,7 +151,8 @@ const styles = StyleSheet.create({
     color: Colors.pallete.light,
     fontFamily: "Poppins",
     fontSize: 34,
-    marginTop: 40,
+    marginTop: 10,
+    textAlign: "center",
   },
   text: {
     color: "black",
@@ -162,6 +167,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 20,
     color: "#fff",
+    lineHeight: 25,
   },
   textDescription: {
     color: "black",

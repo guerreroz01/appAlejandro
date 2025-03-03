@@ -13,6 +13,7 @@ import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
 import AnimatedText from "@/components/AnimationText";
+import LottieView from "lottie-react-native";
 
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1)); // Usar Animated.Value
@@ -36,11 +37,15 @@ export default function Index() {
     <SafeAreaProvider style={{ backgroundColor: Colors.pallete.background }}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <View style={styles.imageContainer}>
-          <ImageBackground
-            source={require("@/assets/images/greetings2.png")}
-            resizeMode="cover"
-            style={styles.image}
-          ></ImageBackground>
+          <LottieView
+            source={require("@/assets/looties/ruleta.json")}
+            autoPlay
+            loop
+            style={{
+              flex: 1,
+              width: "90%",
+            }}
+          />
         </View>
         <View style={styles.textContainer}>
           <AnimatedText
