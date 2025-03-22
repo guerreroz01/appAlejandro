@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image } from "react-native";
 import React from "react";
-import { useGoogleOauth } from "@/hooks/useGoogleOauth";
+import { useGoogleOauth } from "@/hooks/useGoogleFirebaseOauth";
 
 export default function LogInWithGoogleButton() {
   const { promptAsync, userInfo } = useGoogleOauth();

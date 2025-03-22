@@ -5,13 +5,15 @@ import {
   Button,
   ScrollView,
   StyleSheet,
-  ActivityIndicator,
   ImageBackground,
 } from "react-native";
 import FormComponent from "@/components/FormComponent";
 import { Pregunta } from "@/constants/preguntas";
 import { useRouter } from "expo-router";
 import ButtonComponent from "./ButtonComponent";
+import LottieView from "lottie-react-native";
+import { ActivityIndicator } from "react-native-paper";
+import ProgressBarCounter from "./ProgressBarCounter";
 
 type Answer = {
   pregunta: string;
@@ -26,6 +28,7 @@ export default function Main({
   numberOfAnswers: number;
 }) {
   const [selectedAnswers, setSelectedAnswers] = useState<Answer[]>([]);
+  const [sandClock, setSandClock] = useState(false);
   const [allAnswers, setAllAnswers] = useState<Answer[]>([]);
   const [randomIndex, setRandomIndex] = useState<number>(-1);
   const [counter, setCounter] = useState<number>(0);
@@ -53,6 +56,7 @@ export default function Main({
   }
 
   async function handleClickSubmit() {
+    setSandClock(true);
     const response = await fetch("/response", {
       method: "POST",
       headers: {
@@ -83,7 +87,7 @@ export default function Main({
   if (randomIndex === -1 || !data) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4CAF50" />
+        <ActivityIndicator size="large" color="#ff00ff" />
         <Text style={styles.loadingText}>Cargando...</Text>
       </View>
     );
@@ -91,16 +95,29 @@ export default function Main({
 
   return (
     <>
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("@/assets/images/logo.png")}
-          resizeMode="cover"
-          style={styles.image}
-        ></ImageBackground>
+      <View
+        style={[styles.imageContainer, sandClock && { height: 400, top: 100 }]}
+      >
+        {sandClock ? (
+          <ImageBackground
+            source={require("@/assets/images/gif.gif")}
+            style={{ width: "100%", height: 100 }}
+          />
+        ) : (
+          <LottieView
+            source={require("@/assets/looties/logolupa.json")}
+            autoPlay
+            loop
+            style={{
+              flex: 1,
+              width: "100%",
+            }}
+          />
+        )}
       </View>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.content}>
-          {counter !== numberOfAnswers ? (
+      {counter !== numberOfAnswers ? (
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.content}>
             <FormComponent
               data={data[randomIndex]}
               selectedAnswers={selectedAnswers}
@@ -110,15 +127,26 @@ export default function Main({
                 setRandomIndex(Math.floor(Math.random() * data.length))
               }
             />
-          ) : (
-            <ButtonComponent
-              text="Ver Resultados"
-              onPress={handleClickSubmit}
-              link={false}
-            />
-          )}
+          </View>
+        </ScrollView>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            paddingBottom: 60,
+          }}
+        >
+          <ButtonComponent
+            text="Ver Resultados"
+            onPress={handleClickSubmit}
+            link={false}
+          />
         </View>
-      </ScrollView>
+      )}
+      {counter !== numberOfAnswers && (
+        <ProgressBarCounter count={counter} maxCount={numberOfAnswers} />
+      )}
     </>
   );
 }
@@ -134,7 +162,7 @@ const styles = StyleSheet.create({
   content: {
     width: "100%",
     maxWidth: 900,
-    padding: 16,
+    paddingVertical: 4,
     backgroundColor: "rgba(46, 55, 249, 0.08)",
     borderRadius: 16,
     borderColor: "rgba(46, 55, 249, 0.3)",
@@ -162,14 +190,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: 100,
+    height: 170,
     top: 80,
     alignItems: "center",
     justifyContent: "center",
-  },
-  image: {
-    width: 120,
-    height: 120,
-    objectFit: "contain",
   },
 });

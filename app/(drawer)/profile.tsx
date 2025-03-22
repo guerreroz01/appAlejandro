@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   iconContainer: {
-    width: 100,
+    width: 60,
     marginLeft: 10,
   },
   textContainer: {
@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.pallete.light,
-    fontSize: 24,
+    fontSize: 20,
   },
 });

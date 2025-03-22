@@ -14,7 +14,7 @@ const firebaseConfig = {
   projectId: "univia-642c8",
   storageBucket: "univia-642c8.firebasestorage.app",
   messagingSenderId: "1021085977238",
-  appId: "1:1021085977238:web:2c2449d4f04dc8bf8ed0b7",
+  appId: "1:1021085977238:web:55feecfb795df43f8ed0b7",
 };
 
 // Initialize Firebase

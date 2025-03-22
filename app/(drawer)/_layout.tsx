@@ -29,19 +29,9 @@ export default function Layout() {
         options={{
           title: "Home",
           headerTitle: "",
+          headerTransparent: true,
           headerTintColor: "#fff",
-          headerBackground: () => (
-            <LinearGradient
-              colors={["#090124", "#6600ff", "#ff00ff"]}
-              start={{ x: 0.2, y: 0.2 }}
-              end={{ x: 1, y: 1 }}
-              locations={[0.08, 0.7, 1]}
-              style={styles.button}
-            />
-          ),
-          drawerIcon: () => (
-            <Entypo name="home" color={Colors.pallete.light} size={24} />
-          ),
+          drawerIcon: () => <Entypo name="home" color={"#fff"} size={24} />,
         }}
       />
       <Drawer.Screen
@@ -102,15 +92,22 @@ export default function Layout() {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   return (
-    <DrawerContentScrollView {...props} style={{ flex: 1 }}>
+    <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
       <Image
         source={require("@/assets/images/logo.png")}
-        style={{ width: 80, height: 80, alignSelf: "center", marginBottom: 10 }}
+        style={{
+          width: "100%",
+          height: 100,
+          alignSelf: "center",
+          marginBottom: 10,
+          resizeMode: "contain",
+        }}
       />
       <View style={{ alignItems: "center", marginBottom: 10 }}>
         <BrandName />
       </View>
       <DrawerItemList {...props} />
+      <View style={{ flex: 1 }} />
       <View style={styles.footer}>
         <LogOutButton />
         <Text style={styles.footerText}>www.univia.app</Text>
@@ -144,10 +141,9 @@ const styles = StyleSheet.create({
     fontFamily: "Spectral",
   },
   footer: {
-    justifyContent: "flex-end",
-    height: "100%",
+    paddingVertical: 40,
     width: "100%",
-    gap: 60,
+    gap: 10,
   },
   footerText: {
     color: Colors.pallete.light,

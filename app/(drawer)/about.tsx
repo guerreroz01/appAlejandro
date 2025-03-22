@@ -89,9 +89,7 @@ export default function AboutScreen() {
               }}
             >
               <ImageBackground
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRktPrj_SOuJXb8uCr0TZsN0-hqRhVaYYZ40w&s",
-                }}
+                source={require("@/assets/images/charts.jpeg")}
                 resizeMode="cover"
                 style={{ width: 130, height: 130 }}
               />
@@ -109,8 +107,8 @@ export default function AboutScreen() {
           <View style={{ alignItems: "center" }}>
             <ImageBackground
               source={require("@/assets/images/logo.png")}
-              resizeMode="cover"
-              style={{ width: 120, height: 120 }}
+              resizeMode="contain"
+              style={{ width: "100%", height: 120 }}
             />
             <BrandName />
           </View>

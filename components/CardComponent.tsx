@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { herfType } from "./ButtonComponent";
+import LottieView from "lottie-react-native";
 
 interface CardComponentInt {
   href: herfType;
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: 200,
-    position: "relative",
   },
   card: {
     width: "100%",
