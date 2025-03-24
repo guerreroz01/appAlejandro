@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { useGoogleOauth } from "@/hooks/useGoogleOauth";
+import { useGoogleOauth } from "@/hooks/useGoogleFirebaseOauth";
 import { MaterialIcons } from "@expo/vector-icons";
 export default function LogOutButton() {
   const { logout } = useGoogleOauth();

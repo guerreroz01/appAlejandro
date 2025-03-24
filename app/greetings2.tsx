@@ -1,20 +1,12 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  Button,
-  Pressable,
-  Text,
-} from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import VideoContainer from "@/components/VideoComponent";
 import { useVideoPlayer, VideoPlayerStatus } from "expo-video";
 import ButtonComponent from "@/components/ButtonComponent";
 import { useEvent } from "expo";
-import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleOauth";
-import { Colors } from "@/constants/Colors";
+import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 import LogInWithGoogleButton from "@/components/LogInWithGoogleButton";
 import LogInWithIOSButton from "@/components/LogInWithIOSButton";
 
@@ -55,7 +47,7 @@ export default function Index() {
           >
             {playerStatus === "loading" ? (
               <ActivityIndicator size="large" color="#fff" />
-            ) : userInfo ? (
+            ) : user ? (
               <ButtonComponent link href="/(drawer)/home" text="Comenzar" />
             ) : (
               <>

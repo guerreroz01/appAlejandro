@@ -1,18 +1,17 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
 import { useEffect, useState } from "react";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 
 type CountdownProps = {
   targetDate: string;
 };
 
 export default function App() {
-  // TODO!!!
   const targetDate = "2025-05-31T23:59:59"; //TODO? Cambiar por un valor que venga de firebase
-  // TODO!!!
 
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
@@ -45,11 +44,26 @@ export default function App() {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
+    async function getTokens() {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        const userParsed: UserInfo = JSON.parse(userData);
+        if (userParsed.testMade >= 3) {
+          setCanParticipate(true);
+        }
+      }
+    }
+    getTokens();
     return () => clearInterval(timer);
   }, [targetDate]);
 
   function handlePress() {
     //TODO! La función que hace que participe en el sorteo
+    if (canParticipate) {
+      alert("puedes participar");
+    } else {
+      alert("No puedes participar hasta que hayas completado 3 Tests");
+    }
   }
 
   return (
@@ -87,8 +101,8 @@ export default function App() {
         <ButtonComponent
           text="Participar"
           link={false}
-          disabled={canParticipate}
-          onPress={() => {}}
+          disabled={false}
+          onPress={handlePress}
         />
       </View>
     </View>

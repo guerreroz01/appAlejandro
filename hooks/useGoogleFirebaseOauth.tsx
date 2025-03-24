@@ -9,6 +9,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "@/firebaseConfig"; // Asegúrate de tener esto creado
+import getDocumentById from "@/scripts/getData";
+import addUser from "@/scripts/addUser";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -19,6 +21,8 @@ export type UserInfo = {
   name: string;
   picture: string;
   uid: string;
+  codigo: string;
+  testMade: number;
 };
 
 export function useGoogleOauth() {
@@ -32,38 +36,50 @@ export function useGoogleOauth() {
   });
 
   useEffect(() => {
-    if (response?.type === "success" && response.authentication?.idToken) {
-      const { idToken } = response.authentication;
-      const provider = GoogleAuthProvider.credential(idToken);
-      signInWithCredential(auth, provider)
-        .then(async (userCredential) => {
+    const signInWithGoogle = async () => {
+      if (response?.type === "success" && response.authentication?.idToken) {
+        try {
+          const { idToken } = response.authentication;
+          const provider = GoogleAuthProvider.credential(idToken);
+
+          const userCredential = await signInWithCredential(auth, provider);
           const user = userCredential.user;
+
           const formattedUser: UserInfo = {
             email: user.email || "",
             name: user.displayName || "",
             picture: user.photoURL || "",
             uid: user.uid,
+            codigo: "",
+            testMade: 0,
           };
-          setUserInfo(formattedUser);
+
+          const { data } = await getDocumentById("usuarios", formattedUser.uid);
+          if (!data) {
+            const newUser = {
+              ...formattedUser,
+              codigo: formattedUser.uid,
+              testMade: 0,
+            };
+            await addUser("usuarios", newUser, formattedUser.uid);
+            setUserInfo(newUser);
+          }
+
           await AsyncStorage.setItem("user", JSON.stringify(formattedUser));
-        })
-        .catch((err) => {
+        } catch (err) {
           console.error("Firebase sign-in error:", err);
-        });
-    }
+        }
+      }
+    };
+
+    signInWithGoogle();
   }, [response]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const storedUser: UserInfo = {
-          email: user.email || "",
-          name: user.displayName || "",
-          picture: user.photoURL || "",
-          uid: user.uid,
-        };
-        setUserInfo(storedUser);
-        await AsyncStorage.setItem("user", JSON.stringify(storedUser));
+        const { data } = await getDocumentById("usuarios", user.uid);
+        await AsyncStorage.setItem("user", JSON.stringify(data));
       }
     });
     return unsubscribe;
@@ -76,6 +92,7 @@ export function useGoogleOauth() {
         const userParsed: UserInfo = JSON.parse(userData);
         return userParsed;
       }
+
       return null;
     } catch (error) {
       console.error("Failed to retrieve user data:", error);
