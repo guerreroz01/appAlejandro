@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Colors } from "@/constants/Colors";
 import CardComponent from "@/components/CardComponent";
@@ -31,7 +31,7 @@ export default function Index() {
             <CardComponent
               label="🏆🏆🏆"
               href="/preguntas"
-              numberOfQ={1}
+              numberOfQ={15}
               text="Cuestionario 15 Preguntas"
               subText="¡Rápido y sencillo!"
             />

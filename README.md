@@ -9,5 +9,10 @@ TODO:
 - [x] Sorteo post splash y drawer
 - [x] Cambiar el promt para que las respuestas sean en segunda persona
 - [x] Cambiar el prompt para que los resultados no tengan el mismo porcentaje
+- [ ] Modal para la página del sorteo
+- [ ] Cambiar el botón que dice participar por uno que diga Ganador
 - [ ] Añadir el token cuando la persona hace un test
 - [ ] Los cambios después del sorteo
+- [x] Id de los sorteos es substring(0, 8)
+- [ ] Botón de Login con apple
+- [ ] Pagina con información de las bases y condiciones del sorteo en nextJs

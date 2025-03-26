@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleOauth";
+import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 
 const userInfoData = {
   email: "",
-  family_name: "",
-  given_name: "",
   id: "",
   name: "",
   picture: "",
-  verified_email: false,
+  uid: "",
+  testMade: 0,
+  codigo: "",
 };
 
 const uri =
@@ -53,7 +53,7 @@ export default function ProfileScreen() {
           ></LinearGradient>
         </View>
         <View style={{ marginTop: -290, alignItems: "center" }}>
-          <Text style={styles.headerTitle}>{user?.given_name}</Text>
+          <Text style={styles.headerTitle}>{user?.name}</Text>
           <View style={styles.imageProfile}>
             <ImageBackground
               source={{ uri: user?.picture }}
@@ -75,6 +75,12 @@ export default function ProfileScreen() {
           </View>
           <Text style={styles.text}>{user?.email}</Text>
         </View>
+        <View style={styles.textContainer}>
+          <View style={styles.iconContainer}>
+            <Entypo name="fingerprint" color={Colors.pallete.light} size={24} />
+          </View>
+          <Text style={styles.text}>{user?.codigo.substring(0, 8)}</Text>
+        </View>
       </View>
     </View>
   );
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: "50%",
   },
   headerTitle: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 600,
     color: Colors.pallete.light,
     marginTop: 60,

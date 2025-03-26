@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Animated, ImageBackground, StyleSheet, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import AnimatedText from "@/components/AnimationText";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";

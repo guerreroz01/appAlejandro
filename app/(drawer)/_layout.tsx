@@ -37,7 +37,7 @@ export default function Layout() {
       <Drawer.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "Perfil",
           headerTitle: "",
           headerTransparent: true,
           headerTintColor: "#fff",
