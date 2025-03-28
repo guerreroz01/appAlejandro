@@ -1,7 +1,7 @@
 TODO:
 
 - [x] Fondo de las preguntas cambiar el vídeo (Azul claro, Azul oscuro y lila neon)
-- [x] Splash screen
+- [ ] Splash screen
 - [x] Animación typing para las ventanas de greetings
 - [x] Los gráficos de resultados
 - [x] Iconos de postSplash con los colores del boton
@@ -11,8 +11,9 @@ TODO:
 - [x] Cambiar el prompt para que los resultados no tengan el mismo porcentaje
 - [ ] Modal para la página del sorteo
 - [ ] Cambiar el botón que dice participar por uno que diga Ganador
-- [ ] Añadir el token cuando la persona hace un test
+- [x] Añadir el token cuando la persona hace un test
 - [ ] Los cambios después del sorteo
 - [x] Id de los sorteos es substring(0, 8)
 - [ ] Botón de Login con apple
 - [ ] Pagina con información de las bases y condiciones del sorteo en nextJs
+- [x] Añadida la fecha de sorteo a la base de datos y leida directamente desde la base de datos

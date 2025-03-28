@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 export default async function getDocumentById(
@@ -14,10 +14,27 @@ export default async function getDocumentById(
     result = await getDoc(docRef);
 
     if (result.exists()) {
-      data = { id: result.id, ...result.data() };
+      data = { ...result.data() };
     } else {
       error = new Error("Document does not exist");
     }
+  } catch (e) {
+    error = e;
+  }
+
+  return { data, error };
+}
+
+export async function getDate(collectionName: string) {
+  let data: any[] = [];
+  let error = null;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() });
+    });
   } catch (e) {
     error = e;
   }

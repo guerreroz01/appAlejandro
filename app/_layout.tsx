@@ -4,10 +4,8 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import * as NavigationBar from "expo-navigation-bar";
-import { Platform, StyleSheet } from "react-native";
+import { Platform } from "react-native";
 import { Colors } from "@/constants/Colors";
-import { LinearGradient } from "expo-linear-gradient";
-import { Entypo } from "@expo/vector-icons";
 
 export default function RootLayout() {
   let hideTimeout: ReturnType<typeof setTimeout>;

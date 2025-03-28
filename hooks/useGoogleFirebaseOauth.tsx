@@ -29,7 +29,7 @@ export function useGoogleOauth() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [_, response, promptAsync] = Google.useAuthRequest({
     iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
     webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
@@ -50,22 +50,23 @@ export function useGoogleOauth() {
             name: user.displayName || "",
             picture: user.photoURL || "",
             uid: user.uid,
-            codigo: "",
+            codigo: user.uid,
             testMade: 0,
           };
 
           const { data } = await getDocumentById("usuarios", formattedUser.uid);
+
           if (!data) {
             const newUser = {
               ...formattedUser,
-              codigo: formattedUser.uid,
-              testMade: 0,
             };
             await addUser("usuarios", newUser, formattedUser.uid);
+            await AsyncStorage.setItem("user", JSON.stringify(formattedUser));
             setUserInfo(newUser);
+            return;
           }
 
-          await AsyncStorage.setItem("user", JSON.stringify(formattedUser));
+          await AsyncStorage.setItem("user", JSON.stringify(data));
         } catch (err) {
           console.error("Firebase sign-in error:", err);
         }

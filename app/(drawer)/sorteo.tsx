@@ -5,13 +5,10 @@ import { useEffect, useState } from "react";
 import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserInfo } from "@/hooks/useGoogleFirebaseOauth";
-
-type CountdownProps = {
-  targetDate: string;
-};
+import getDocumentById, { getDate } from "@/scripts/getData";
 
 export default function App() {
-  const targetDate = "2025-05-31T23:59:59"; //TODO? Cambiar por un valor que venga de firebase
+  const [targetDate, setTargetDate] = useState("");
 
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
@@ -40,29 +37,44 @@ export default function App() {
   const [canParticipate, setCanParticipate] = useState<boolean>(false);
 
   useEffect(() => {
+    async function getTargetDate() {
+      const data = await getDate("sorteo");
+      if (data.data) setTargetDate(data.data[0].fecha_sorteo);
+    }
+    getTargetDate();
+  }, []);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    async function getTokens() {
-      const userData = await AsyncStorage.getItem("user");
-      if (userData) {
-        const userParsed: UserInfo = JSON.parse(userData);
-        if (userParsed.testMade >= 3) {
-          setCanParticipate(true);
-        }
-      }
-    }
-    getTokens();
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  function handlePress() {
+  async function getUserData() {
+    const storedUser = await AsyncStorage.getItem("user");
+    if (storedUser) {
+      const userParsed: UserInfo = JSON.parse(storedUser);
+      const data = await getDocumentById("usuarios", userParsed.uid || "");
+      if (data.data?.testMade >= 2) {
+        setCanParticipate(true);
+      } else {
+        setCanParticipate(false);
+      }
+    }
+  }
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  async function handlePress() {
+    await getUserData();
     //TODO! La función que hace que participe en el sorteo
     if (canParticipate) {
       alert("puedes participar");
     } else {
-      alert("No puedes participar hasta que hayas completado 3 Tests");
+      alert("No puedes participar hasta que hayas completado 2 Tests");
     }
   }
 

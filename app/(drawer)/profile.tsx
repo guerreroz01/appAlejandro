@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Entypo } from "@expo/vector-icons";
@@ -14,9 +14,6 @@ const userInfoData = {
   testMade: 0,
   codigo: "",
 };
-
-const uri =
-  "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8";
 
 export default function ProfileScreen() {
   const { getStoredUser } = useGoogleOauth();

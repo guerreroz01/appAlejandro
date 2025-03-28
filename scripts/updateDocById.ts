@@ -1,10 +1,11 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 
 export default async function updateDocumentById(
   collectionName: string,
   docId: string,
-  data: any
+  data: UserInfo
 ) {
   let result = null;
   let error = null;

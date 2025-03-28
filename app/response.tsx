@@ -5,7 +5,10 @@ import { PieChart } from "react-native-gifted-charts";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import updateDocumentById from "@/scripts/updateDocById";
+import { useGoogleOauth } from "@/hooks/useGoogleFirebaseOauth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type DataType = {
   name: string;
@@ -17,6 +20,7 @@ export type DataType = {
 export default function ResponseScreen() {
   const params = useLocalSearchParams();
   const [parsedData, setParsedData] = useState<DataType>([]);
+  const { getStoredUser } = useGoogleOauth();
 
   const router = useRouter();
   useEffect(() => {
@@ -39,6 +43,29 @@ export default function ResponseScreen() {
       } catch (error) {
         console.error("❌ Error al parsear JSON:", error);
       }
+
+      async function getUserFromAsyncData() {
+        try {
+          const userData = await getStoredUser();
+
+          if (userData) {
+            updateDocumentById("usuarios", userData.uid, {
+              ...userData,
+              testMade: userData.testMade + 1,
+            });
+            await AsyncStorage.setItem(
+              "user",
+              JSON.stringify({ ...userData, testMade: userData?.testMade + 1 })
+            );
+          }
+
+          return null; // o undefined, según lo que esperes
+        } catch (error) {
+          console.error("Error leyendo datos del usuario:", error);
+          return null;
+        }
+      }
+      getUserFromAsyncData();
     }
 
     parseData();
@@ -148,10 +175,10 @@ export default function ResponseScreen() {
                       index === 0
                         ? Colors.pallete.lightBlue
                         : index === 1
-                        ? Colors.pallete.primary
-                        : index === 2
-                        ? Colors.pallete.secondary
-                        : "#d6c800",
+                          ? Colors.pallete.primary
+                          : index === 2
+                            ? Colors.pallete.secondary
+                            : "#d6c800",
                   },
                   { value: 100 - percentNumber, color: "#eaeaea" },
                 ];

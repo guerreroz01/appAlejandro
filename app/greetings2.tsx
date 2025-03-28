@@ -14,14 +14,14 @@ const videoSource = require("@/assets/videos/video_2.mp4");
 
 export default function Index() {
   const [user, setUser] = React.useState<UserInfo | null>(null);
-  const { userInfo, getStoredUser } = useGoogleOauth();
+  const { getStoredUser } = useGoogleOauth();
   const [playerStatus, setPlayerStatus] =
     React.useState<VideoPlayerStatus | null>(null);
   const videoRef = useVideoPlayer(videoSource, (player) => {
     player.loop = true;
     player.play();
   });
-  const { status, error } = useEvent(videoRef, "statusChange", {
+  const { status } = useEvent(videoRef, "statusChange", {
     status: videoRef.status,
   });
 
