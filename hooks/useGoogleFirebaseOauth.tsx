@@ -23,6 +23,7 @@ export type UserInfo = {
   uid: string;
   codigo: string;
   testMade: number;
+  isSorteo: boolean
 };
 
 export function useGoogleOauth() {
@@ -52,6 +53,7 @@ export function useGoogleOauth() {
             uid: user.uid,
             codigo: user.uid,
             testMade: 0,
+            isSorteo: false
           };
 
           const { data } = await getDocumentById("usuarios", formattedUser.uid);

@@ -232,7 +232,7 @@ export default function ResponseScreen() {
                               >
                                 <Text
                                   style={{
-                                    fontSize: 30,
+                                    fontSize: 24,
                                     color: Colors.pallete.light,
                                   }}
                                 >

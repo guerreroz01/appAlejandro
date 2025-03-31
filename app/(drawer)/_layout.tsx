@@ -1,5 +1,5 @@
 import { Drawer } from "expo-router/drawer";
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,8 +9,6 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import BrandName from "@/components/BrandName";
-import { useGoogleOauth } from "@/hooks/useGoogleOauth";
-import { useRouter } from "expo-router";
 import LogOutButton from "@/components/LogOutButton";
 
 export default function Layout() {

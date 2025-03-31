@@ -4,7 +4,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { DataType } from "./response";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
 import { Colors } from "@/constants/Colors";
 import { PieChart } from "react-native-gifted-charts";
 import { AntDesign } from "@expo/vector-icons";
@@ -111,7 +110,7 @@ export default function Page() {
                             >
                               <Text
                                 style={{
-                                  fontSize: 50,
+                                  fontSize: 44,
                                   color: Colors.pallete.light,
                                 }}
                               >

@@ -8,7 +8,7 @@ const client = new OpenAI({
 const systemContentMessage = `
 1. Se te dará una lista de preguntas y respuestas.
 2. Basándote en las preguntas y respuestas suministradas, proporcionarás 4 carreras universitarias. 
-3. Cada carrera incluirá su nombre, una breve descripción del por qué ha sido elegida y su porcentaje basado en el total (los porcentajes no serán iguales).
+3. Cada carrera incluirá su nombre, una breve descripción del por qué ha sido elegida y su porcentaje basado en el total (los porcentajes no serán en ningún caso iguales entre si y mientras mayor sea la diferencia mejor, los porcentajes es mejor que no sean números redondos).
 4. Responderás únicamente con un objeto JSON en el siguiente formato: 
 [
   { "name": "", "description": "", "percent": "" },

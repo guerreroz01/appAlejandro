@@ -6,9 +6,14 @@ import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 import getDocumentById, { getDate } from "@/scripts/getData";
+import ModalSorteo from "@/components/ModalSorteo";
+
+const montoSorteo = "GANA HASTA 150€"
 
 export default function App() {
   const [targetDate, setTargetDate] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [animation, setAnimation] = useState(false);
 
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
@@ -22,7 +27,7 @@ export default function App() {
     let timeLeft = {
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       ),
       minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
       seconds: Math.floor((difference % (1000 * 60)) / 1000),
@@ -57,6 +62,10 @@ export default function App() {
     if (storedUser) {
       const userParsed: UserInfo = JSON.parse(storedUser);
       const data = await getDocumentById("usuarios", userParsed.uid || "");
+      if (data.data?.isSorteo){
+        setAnimation(true)
+        return;
+      }
       if (data.data?.testMade >= 2) {
         setCanParticipate(true);
       } else {
@@ -67,16 +76,6 @@ export default function App() {
   useEffect(() => {
     getUserData();
   }, []);
-
-  async function handlePress() {
-    await getUserData();
-    //TODO! La función que hace que participe en el sorteo
-    if (canParticipate) {
-      alert("puedes participar");
-    } else {
-      alert("No puedes participar hasta que hayas completado 2 Tests");
-    }
-  }
 
   return (
     <View style={styles.container}>
@@ -109,14 +108,39 @@ export default function App() {
         </View>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.textLabel}>GANA 200€</Text>
+        {!animation && <Text style={styles.textLabel}>{montoSorteo}</Text>}
         <ButtonComponent
-          text="Participar"
+          text={animation ? "Participando" : "Participar"}
           link={false}
           disabled={false}
-          onPress={handlePress}
+          onPress={() => setShowModal(!showModal)}
         />
       </View>
+      {showModal && (
+        <View style={styles.modal}>
+          <ModalSorteo
+            canParticipate={canParticipate}
+            setClose={setShowModal}
+            setAnimation={setAnimation}
+            montoSorteo={montoSorteo}
+          />
+        </View>
+      )}
+      {animation && (
+        <View
+          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <LottieView
+            source={require("@/assets/looties/confeti.json")}
+            autoPlay
+            loop
+            style={{
+              flex: 1,
+              width: "90%",
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -127,6 +151,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.pallete.background,
     paddingVertical: 10,
+    position: "relative",
   },
   button: {
     padding: 15,
@@ -195,5 +220,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  modal: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
