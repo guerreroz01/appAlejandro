@@ -1,12 +1,17 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function BrandName() {
+type BrandNameProps = {
+  fontSize?: number;
+  fontBigSize?: number;
+};
+
+export default function BrandName({ fontSize, fontBigSize }: BrandNameProps) {
   return (
     <View style={{ flexDirection: "row", alignItems: "baseline" }}>
       <Text
         style={{
-          fontSize: 22,
+          fontSize: fontSize ? fontSize : 22,
           color: "#FFF",
           fontFamily: "Spectral",
         }}
@@ -15,7 +20,7 @@ export default function BrandName() {
       </Text>
       <Text
         style={{
-          fontSize: 32,
+          fontSize: fontBigSize ? fontBigSize : 32,
           color: "#75d8fc",
           fontFamily: "Spectral",
         }}

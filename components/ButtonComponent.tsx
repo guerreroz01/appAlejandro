@@ -12,7 +12,8 @@ export type herfType =
   | "/psorteo"
   | "/(drawer)/home"
   | "/preguntas"
-  | "/response1";
+  | "/response1"
+  | "/index2";
 
 interface ButtonComponentInt {
   text: string;

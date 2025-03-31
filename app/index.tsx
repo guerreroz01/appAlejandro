@@ -1,74 +1,38 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Animated, StyleSheet, View } from "react-native";
-import AnimatedText from "@/components/AnimationText";
-import { Colors } from "@/constants/Colors";
-import ButtonComponent from "@/components/ButtonComponent";
+import {  StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
+import BrandName from "@/components/BrandName";
+import { useRouter } from "expo-router";
+import { useRef } from "react";
 
 export default function Index() {
-  const [breadcumbWidth] = useState(new Animated.Value(1));
+ const router = useRouter();
+  const animation = useRef<LottieView>(null)
 
-  useEffect(() => {
-    Animated.timing(breadcumbWidth, {
-      toValue: 60,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/index2");
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, [router]);
 
   return (
-    <SafeAreaProvider style={{ backgroundColor: Colors.pallete.background }}>
+    <SafeAreaProvider style={{ backgroundColor: "#000" }}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <View style={styles.imageContainer}>
           <LottieView
-            source={require("@/assets/looties/logolibro.json")}
+            source={require("@/assets/looties/splash.json")}
             autoPlay
+            ref={animation}
             loop={false}
-            style={{ flex: 1, width: "80%" }}
+            style={{ flex: 1, width: "100%" }}
           />
         </View>
-        <View style={styles.textContainer}>
-          <AnimatedText text={["Encuentra tu carrera", "con nosotros"]} />
-          <View
-            style={{
-              height: 100,
-              flexDirection: "row",
-              paddingBottom: 46,
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 20,
-            }}
-          >
-            <Animated.View
-              style={{
-                backgroundColor: "#6600ff",
-                height: 10,
-                width: breadcumbWidth,
-                borderRadius: 20,
-              }}
-            />
-            <View
-              style={{
-                backgroundColor: "#6600ff",
-                height: 10,
-                width: 10,
-                borderRadius: 20,
-              }}
-            />
-            <View
-              style={{
-                backgroundColor: "#6600ff",
-                height: 10,
-                width: 10,
-                borderRadius: 20,
-              }}
-            />
-          </View>
-        </View>
-        <ButtonComponent text="Siguiente" href="/greetings1" link />
+        <View style={{flex: 1}} />
+        <BrandName fontSize={40} fontBigSize={50} />
         <StatusBar style="light" />
       </SafeAreaView>
     </SafeAreaProvider>
@@ -96,7 +60,7 @@ const styles = StyleSheet.create({
     height: 300,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 80,
     marginBottom: 20,
     overflow: "hidden",
   },

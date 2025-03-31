@@ -57,6 +57,7 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="index2" options={{ headerShown: false }} />
       <Stack.Screen name="greetings1" options={{ headerShown: false }} />
       <Stack.Screen name="psorteo" options={{ headerShown: false }} />
       <Stack.Screen name="greetings2" options={{ headerShown: false }} />
