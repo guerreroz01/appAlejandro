@@ -4,12 +4,9 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {
   Animated,
-  ImageBackground,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
-import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ButtonComponent from "@/components/ButtonComponent";
 import AnimatedText from "@/components/AnimationText";
@@ -18,9 +15,7 @@ import LottieView from "lottie-react-native";
 export default function Index() {
   const [breadcumbWidth] = useState(new Animated.Value(1)); // Usar Animated.Value
 
-  // Usar useEffect con un setTimeout para crear un retraso
   useEffect(() => {
-    // Simulamos un retraso en la animación para asegurar que se active después de la transición
     const timer = setTimeout(() => {
       Animated.timing(breadcumbWidth, {
         toValue: 60, // Finalizamos en 60
@@ -29,7 +24,6 @@ export default function Index() {
       }).start(); // Iniciar animación
     }, 100); // Retraso de 100ms después de la carga inicial
 
-    // Limpiar el timer cuando el componente se desmonte
     return () => clearTimeout(timer);
   }, []);
 
@@ -49,7 +43,7 @@ export default function Index() {
         </View>
         <View style={styles.textContainer}>
           <AnimatedText
-            text={["Gana 200€", "participando en", "nuestro sorteo"]}
+            text={["Gana hasta 150€", "participando en", "nuestro sorteo"]}
           />
 
           <View

@@ -31,7 +31,7 @@ export default function Index() {
           />
         </View>
         <View style={styles.textContainer}>
-          <AnimatedText text={["Encuentra tu carrera", "con nosotros"]} />
+          <AnimatedText text={["Encuentra tu carrera", "con Univia"]} />
           <View
             style={{
               height: 100,

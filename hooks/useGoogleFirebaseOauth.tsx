@@ -23,7 +23,7 @@ export type UserInfo = {
   uid: string;
   codigo: string;
   testMade: number;
-  isSorteo: boolean
+  isSorteo: boolean;
 };
 
 export function useGoogleOauth() {
@@ -53,7 +53,7 @@ export function useGoogleOauth() {
             uid: user.uid,
             codigo: user.uid,
             testMade: 0,
-            isSorteo: false
+            isSorteo: false,
           };
 
           const { data } = await getDocumentById("usuarios", formattedUser.uid);
@@ -65,6 +65,18 @@ export function useGoogleOauth() {
             await addUser("usuarios", newUser, formattedUser.uid);
             await AsyncStorage.setItem("user", JSON.stringify(formattedUser));
             setUserInfo(newUser);
+            /// TODO!!
+            // Enviar correo de bienvenida a la app
+
+            const response = await fetch("/sendEmail", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ user: newUser }),
+            });
+
+            console.log(response)
             return;
           }
 
