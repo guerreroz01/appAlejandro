@@ -20,21 +20,11 @@ TODO:
 - [ ] Botón de Login con apple
 - [ ] Pagina con información de las bases y condiciones del sorteo en nextJs
 - [x] Afinar los resultados del la ia para que los porcentajes sean más diferentes
-- [ ] Resend confirmación para la participación del Sorteo
-- [ ] Resend enviar correo cuando se logee en la aplicación
+- [x] Resend confirmación para la participación del Sorteo
+- [x] Resend enviar correo cuando se logee en la aplicación
 
 
 
 
 CONFIG:
 - [ ] Adsense: AdSense pub-1363594265742110
-DKIM and SPF
-type    Host/Name               Value                                                                                                                                                                                                                           Priority    TTL
-MX      send                    feedback-smtp.eu-west-1.amazonses.com                                                                                                                                                                                           10          Auto
-TXT     send                    v=spf1 include:amazonses.com ~all                                                                                                                                                                                                           Auto
-TXT     resend._domainkey       p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuFQ88VChdF+fZ18ywXBxuiSjQch+vStFt1lRRm3H0Dsf5SpjKJ9NIj6aaSWQZaqcGg4Ft3pvbiJwmMatGVS8RiCsU1CqTjP1DeNcW13uHqDwc+brbuD6leSSXfKgkdd2uSkintmDfHdcvSRD2modBUmwnUCr0lxZfnlM6KUI3IQIDAQAB
-
-DMARC 
-
-type    Host/Name               Value               TTL
-TXT     _dmarc                  v=DMARC1; p=none;   Auto

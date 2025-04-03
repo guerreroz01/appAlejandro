@@ -65,8 +65,6 @@ export function useGoogleOauth() {
             await addUser("usuarios", newUser, formattedUser.uid);
             await AsyncStorage.setItem("user", JSON.stringify(formattedUser));
             setUserInfo(newUser);
-            /// TODO!!
-            // Enviar correo de bienvenida a la app
 
             const response = await fetch("/sendEmail", {
               method: "POST",
@@ -76,7 +74,6 @@ export function useGoogleOauth() {
               body: JSON.stringify({ user: newUser }),
             });
 
-            console.log(response)
             return;
           }
 

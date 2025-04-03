@@ -31,7 +31,7 @@ export default function Index() {
             <CardComponent
               label="🏆🏆🏆"
               href="/preguntas"
-              numberOfQ={1}
+              numberOfQ={15}
               text="Cuestionario 15 Preguntas"
               subText="¡Rápido y sencillo!"
             />

@@ -9,7 +9,7 @@ import addData from "@/scripts/addData";
 import { Colors } from "@/constants/Colors";
 
 interface ModalSorteoInt {
-  montoSorteo: string
+  montoSorteo: string;
   canParticipate: boolean;
   setClose: Dispatch<SetStateAction<boolean>>;
   setAnimation: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +19,7 @@ export default function ModalSorteo({
   canParticipate,
   setClose,
   setAnimation,
-  montoSorteo
+  montoSorteo,
 }: ModalSorteoInt) {
   const [termCheck, setTermCheck] = useState(false);
   const [pdatosCheck, setPdatosCheck] = useState(false);
@@ -30,10 +30,21 @@ export default function ModalSorteo({
     setAnimation(true);
     const user = await getStoredUser();
     if (user) {
-      await addData("participantes_sorteo", { email: user?.email, codigo: user?.codigo });
+      await addData("participantes_sorteo", {
+        email: user?.email,
+        codigo: user?.codigo,
+      });
       await updateDocumentById("usuarios", user?.uid, {
         ...user,
-        isSorteo: true
+        isSorteo: true,
+      });
+
+      const response = await fetch("/sendEmailSorteo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: user }),
       });
     }
   }
@@ -122,7 +133,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "#6600ff", 
+    borderColor: "#6600ff",
     backgroundColor: Colors.pallete.background,
     justifyContent: "space-around",
     paddingVertical: 30,
@@ -130,7 +141,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "30%",
   },
-  heading: { fontSize: 30, color: "#ff00ff", textAlign: "center", fontWeight: "bold" },
+  heading: {
+    fontSize: 30,
+    color: "#ff00ff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
   line: {
     borderBottomWidth: 2,
     borderColor: "#ff00ff",

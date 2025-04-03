@@ -1,6 +1,6 @@
 
 import { Resend } from "resend";
-import WelcomeEmail from "@/components/Welcome";
+import EmailConfSorteo from "@/components/EmailConfSorteo";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "");
 
@@ -19,8 +19,8 @@ export async function POST(request: Request) {
     const emailRespond = await resend.emails.send({
       from: "info@univia.app",
       to: user.email,
-      subject: "Bienvenido a UNIVIA",
-      react: WelcomeEmail({ username: user.name || "Usuario", company: "Univia" }),
+      subject: "¡Ya estás participando! UNIVIA",
+      react: EmailConfSorteo({ username: user.name || "Usuario", company: "Univia" }),
     });
 
     return new Response(JSON.stringify({ success: true }), {
@@ -36,4 +36,5 @@ export async function POST(request: Request) {
     });
   }
 }
+
 
