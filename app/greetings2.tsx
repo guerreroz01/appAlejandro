@@ -9,6 +9,7 @@ import { useEvent } from "expo";
 import { useGoogleOauth, UserInfo } from "@/hooks/useGoogleFirebaseOauth";
 import LogInWithGoogleButton from "@/components/LogInWithGoogleButton";
 import LogInWithIOSButton from "@/components/LogInWithIOSButton";
+import { Platform } from "react-native";
 
 const videoSource = require("@/assets/videos/video_2.mp4");
 
@@ -52,7 +53,8 @@ export default function Index() {
             ) : (
               <>
                 <LogInWithGoogleButton />
-                <LogInWithIOSButton />
+                {/* La opción de logear con Apple solo se activa cuando se usa un iphone  */}
+                {Platform.OS === "ios" && <LogInWithIOSButton />}
               </>
             )}
           </View>
