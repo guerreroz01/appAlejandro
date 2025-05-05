@@ -16,25 +16,25 @@ export default function RootLayout() {
     Poppins: require("@/assets/fonts/Poppins-SemiBold.ttf"),
     Spectral: require("@/assets/fonts/SpectralSC-SemiBold.ttf"),
   });
-
-  useEffect(() => {
-    if (Platform.OS === "android") {
-      NavigationBar.addVisibilityListener(({ visibility }) => {
-        if (visibility === "visible") {
-          setBarVisibility(visibility);
-
-          if (hideTimeout) {
-            clearTimeout(hideTimeout);
+  /* Revisar si se puede implementar ***
+    useEffect(() => {
+      if (Platform.OS === "android") {
+        NavigationBar.addVisibilityListener(({ visibility }) => {
+          if (visibility === "visible") {
+            setBarVisibility(visibility);
+  
+            if (hideTimeout) {
+              clearTimeout(hideTimeout);
+            }
+  
+            hideTimeout = setTimeout(() => {
+              hideNavigationBar();
+            }, 5000);
           }
-
-          hideTimeout = setTimeout(() => {
-            hideNavigationBar();
-          }, 5000);
-        }
-      });
-    }
-  }, []);
-
+        });
+      }
+    }, []);
+  */
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();

@@ -1,4 +1,4 @@
-// firebaseConfig.ts
+// firebase.ts
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getAuth,
@@ -7,41 +7,30 @@ import {
   Auth,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBUmb2Z-9UOP8yYeR7IfNasY3ZaaMuC0ps",
   authDomain: "univia-642c8.firebaseapp.com",
   projectId: "univia-642c8",
-  storageBucket: "univia-642c8.appspot.com", // ← fix `.app` to `.appspot.com`
+  storageBucket: "univia-642c8.appspot.com",
   messagingSenderId: "1021085977238",
   appId: "1:1021085977238:web:55feecfb795df43f8ed0b7",
 };
 
-// Initialize app once
+// Init App
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Initialize auth with AsyncStorage persistence once
+// Singleton para evitar doble inicialización
 let auth: Auth;
-
-if (!getApps().length) {
+try {
+  auth = getAuth(app);
+} catch (e) {
   auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+    persistence: getReactNativePersistence(AsyncStorage),
   });
-} else {
-  try {
-    auth = initializeAuth(app, {
-      persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-    });
-  } catch {
-    auth = initializeAuth(app, {
-      persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-    });
-  }
 }
 
-// Firestore
 const db = getFirestore(app);
 
-export { app, db, auth };
+export { app, auth, db };

@@ -17,11 +17,12 @@ TODO:
 - [x] Siguientes sorteos
 - [x] Añadir el token cuando la persona hace un test
 - [x] Id de los sorteos es substring(0, 8)
-- [ ] Botón de Login con apple
-- [ ] Pagina con información de las bases y condiciones del sorteo en nextJs
 - [x] Afinar los resultados del la ia para que los porcentajes sean más diferentes
 - [x] Resend confirmación para la participación del Sorteo
 - [x] Resend enviar correo cuando se logee en la aplicación
+- [x] Pagina con información de las bases y condiciones del sorteo en nextJs
+- [ ] El redirect de google está roto
+- [ ] Botón de Login con apple
 
 
 

@@ -11,6 +11,7 @@ import {
 import { auth } from "@/firebaseConfig"; // Asegúrate de tener esto creado
 import getDocumentById from "@/scripts/getData";
 import addUser from "@/scripts/addUser";
+import * as AuthSession from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,8 +34,11 @@ export function useGoogleOauth() {
   const [_, response, promptAsync] = Google.useAuthRequest({
     iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
+    //redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
     webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
   });
+
+
 
   useEffect(() => {
     const signInWithGoogle = async () => {
