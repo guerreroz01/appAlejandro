@@ -29,22 +29,26 @@ export default function Index() {
 
           <View style={styles.cardContainer}>
             <CardComponent
-              label="🏆🏆🏆"
+              /*label="🏆🏆🏆"*/
+              label=""
               href="/preguntas"
               numberOfQ={15}
               text="Cuestionario 15 Preguntas"
               subText="¡Rápido y sencillo!"
             />
             <CardComponent
-              label="🏆🏆🏆🏆"
-              goldenLabel="🏅🏅🏅"
+              //label="🏆🏆🏆🏆"
+              label=""
+              //goldenLabel="🏅🏅🏅"
+              goldenLabel=""
               href="/preguntas"
               numberOfQ={25}
               text="Cuestionario 25 Preguntas"
               subText="Más detalle para mejores opciones"
             />
             <CardComponent
-              label="🏆🏆🏆🏆🏆"
+              //label="🏆🏆🏆🏆🏆"
+              label=""
               href="/preguntas"
               numberOfQ={35}
               text="Cuestionario 35 Preguntas"

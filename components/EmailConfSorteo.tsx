@@ -62,7 +62,7 @@ const EmailConfSorteo = ({ username, company }: Props) => {
             <Text className="text-sm font-semibold">¿Cuándo sabremos los ganadores?</Text>
 
             <Text className="text-sm">
-              Los afortunados ganadores serán anunciados el 6 de junio a las 19:00 PM. Estaremos informándote por correo con todos los detalles sobre cómo haremos el anuncio de los ganadores del sorteo, así que estate atento a tu bandeja de entrada.
+              Los afortunados ganadores serán anunciados el 6 de octubre a las 19:00 PM. Estaremos informándote por correo con todos los detalles sobre cómo haremos el anuncio de los ganadores del sorteo, así que estate atento a tu bandeja de entrada.
             </Text>
             <Text className="text-sm">
               Tranquilo, estás en buenas manos. <br/>

@@ -22,8 +22,14 @@ TODO:
 - [x] Resend enviar correo cuando se logee en la aplicación
 - [x] Pagina con información de las bases y condiciones del sorteo en nextJs
 - [ ] El redirect de google está roto
-- [ ] Botón de Login con apple
-
+- [x] Botón de Login con apple
+- [ ] Los charts no funcionan en IOS
+- [ ] Los checkbox del las condiciones del sorteo no se ven por los colores que tienen 
+- [x] La redirección de el login con el botón de IOS 
+- [ ] Cambiar el color verde del gana hasta 150€ por el rosa
+- [ ] Flecha de la pagina de información para que se abran los acordeones no se ven en IOS
+- [ ] Cambiar emojis de trofeos en las cards
+- [ ] Poner un enlace desde la página de resultados a la página web
 
 
 
